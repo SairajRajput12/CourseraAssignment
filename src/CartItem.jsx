@@ -43,7 +43,6 @@ const CartItem = ({ onContinueShopping }) => {
     }
     else{
       handleRemove(item); 
-    
     }
   };
   
