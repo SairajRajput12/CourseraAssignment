@@ -3,12 +3,18 @@ import "./ProductList.css";
 import CartItem from "./CartItem"; 
 import { addItem } from "./CartSlice";
 import { useDispatch } from "react-redux";
+import { useSelector } from 'react-redux';
 
 function ProductList() {
-  const [showCart, setShowCart] = useState(false);
+  const [showCart, setShowCart] = useState(true);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
   const [addedToCart,setAddedCart] = useState({}); 
   const dispatch = useDispatch(); 
+  const itemCount = useSelector((state) => 
+    state.cart.items.reduce((total, item) => total + item.quantity, 0)
+  );
+
+
   
   const plantsArray = [
     {
@@ -274,7 +280,7 @@ function ProductList() {
   };
   const handleCartClick = (e) => {
     e.preventDefault();
-    setShowCart(true); // Set showCart to true when cart icon is clicked
+    setShowCart(showCart => !showCart); // Set showCart to true when cart icon is clicked
   };
   const handlePlantsClick = (e) => {
     e.preventDefault();
@@ -284,7 +290,8 @@ function ProductList() {
 
   const handleContinueShopping = (e) => {
     e.preventDefault();
-    setShowCart(false);
+    console.log('clicked'); 
+    setShowCart(showCart => !showCart);
   };
 
   function handleAddToCart(plant){
@@ -354,7 +361,7 @@ function ProductList() {
           </div>
         </div>
       </div>
-      {!showCart ? (
+      {showCart ? (
         <div className="product-grid">
           {plantsArray.map((category, index) => (
             <div key={index}>
